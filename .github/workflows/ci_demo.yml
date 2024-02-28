@@ -8,8 +8,6 @@ on:
 jobs:
   slack_notifier:
     runs-on: manish_org_runner
-    # runs-on: manish_linux
-  
 
     steps:
       - name: Set up JDK 17
@@ -20,20 +18,29 @@ jobs:
 
       - name: Set PowerShell Execution Policy
         run: |
-           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+          Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+
       - name: Check out repository
         uses: actions/checkout@v2
 
       - name: Build Maven project 
-        run: mvn  clean install
-             # $env:MAVEN_EXIT_CODE=$LASTEXITCODE
-          
+        run: mvn clean install
+
       - name: Generate code coverage report
         run: |
-          
           mvn jacoco:report
+
       - name: Publish code coverage result
         uses: actions/upload-artifact@v2
         with:
           name: code-coverage
           path: target/site/jacoco/index.html
+
+      - name: Convert to non-shallow clone
+        run: git fetch --unshallow
+
+      - name: SonarQube Scan
+        run: mvn sonar:sonar -Dsonar.host.url="${Sonar_URL}" -Dsonar.login="${SONAR_CLOUD_TOKEN}" -Dsonar.sources=. -Dsonar.java.binaries=./target
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.Sonar_URL }}
