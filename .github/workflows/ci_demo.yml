@@ -28,7 +28,8 @@ jobs:
         run: |
            
              mvn  clean install
-             $env:MAVEN_EXIT_CODE=$LASTEXITCODE
+       
+             # $env:MAVEN_EXIT_CODE=$LASTEXITCODE
           
       - name: Generate code coverage report
         run: |
