@@ -21,8 +21,8 @@ jobs:
       # - name: Set PowerShell Execution Policy
       #   run: |
       #      Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
-      # - name: Check out repository
-      #   uses: actions/checkout@v2
+      - name: Check out repository
+        uses: actions/checkout@v2
 
       - name: Build Maven project 
         run: mvn  clean install
