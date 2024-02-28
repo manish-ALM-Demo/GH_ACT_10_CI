@@ -3,7 +3,7 @@ name: slack_github_action
 on:
   push:
     branches:
-      - main
+      - dev
 
 jobs:
   slack_notifier:
