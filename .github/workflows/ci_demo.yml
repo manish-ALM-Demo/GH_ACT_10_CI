@@ -40,8 +40,8 @@ jobs:
         run: git fetch --unshallow
 
       - name: SonarQube Scan
-        run: mvn sonar:sonar -Dsonar.host.url="${Sonar_URL}" -Dsonar.login="${SONAR_CLOUD_TOKEN}" -Dsonar.sources=. -Dsonar.java.binaries=./target
+        run: mvn sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.login="${SONAR_CLOUD_TOKEN}" -Dsonar.sources=. -Dsonar.java.binaries=./target
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.Sonar_URL }}
+          # SONAR_HOST_URL: ${{ secrets.Sonar_URL }}
           
