@@ -18,16 +18,16 @@ jobs:
           
       - name: Build Maven project 
         run: |
-            # cd "C:\Users\manishkumar\Desktop\GITHUB actions\GH_ACT_10_CI\pom.xml"
+            cd $GITHUB_WORKSPACE
              mvn clean install
              $env:MAVEN_EXIT_CODE=$LASTEXITCODE
           
-      - name: Generate code coverage report
-        run: |
+      # - name: Generate code coverage report
+      #   run: |
           
-          mvn jacoco:report
-      - name: Publish code coverage result
-        uses: actions/upload-artifact@v2
-        with:
-          name: code-coverage
-          path: target/site/jacoco/index.html
+      #     mvn jacoco:report
+      # - name: Publish code coverage result
+      #   uses: actions/upload-artifact@v2
+        # with:
+        #   name: code-coverage
+        #   path: target/site/jacoco/index.html
