@@ -16,9 +16,9 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
           
-      - name: Build Maven project
+      - name: Build Maven project 
         run: |
-            cd "C:\Users\manishkumar\Desktop\GITHUB actions\GH_ACT_10_CI\pom.xml"
+            # cd "C:\Users\manishkumar\Desktop\GITHUB actions\GH_ACT_10_CI\pom.xml"
              mvn clean install
              $env:MAVEN_EXIT_CODE=$LASTEXITCODE
           
