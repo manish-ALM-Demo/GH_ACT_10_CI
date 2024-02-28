@@ -20,7 +20,7 @@ jobs:
       - name: Build Maven project 
         run: |
            
-             mvn clean install
+             mvn -f C:\Users\manishkumar\Desktop\GITHUB actions\GH_ACT_10_CI\pom.xml <clean install>
              $env:MAVEN_EXIT_CODE=$LASTEXITCODE
           
       # - name: Generate code coverage report
