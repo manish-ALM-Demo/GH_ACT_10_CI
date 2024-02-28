@@ -23,6 +23,7 @@
         <sonar.projectName>27061_complete CI</sonar.projectName>
         <sonar.jacoco.reportPaths>target/jacoco.exec</sonar.jacoco.reportPaths>
 		<sonar.projectVersion>1.0</sonar.projectVersion>
+	     <sonar.organization>manish-alm-demo</sonar.organization>
 
       
     </properties>
