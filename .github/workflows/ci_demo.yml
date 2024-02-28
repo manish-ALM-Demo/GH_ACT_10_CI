@@ -15,3 +15,8 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '11'
+          
+      - name: Build Maven project
+        run: |
+          mvn clean install
+          $env:MAVEN_EXIT_CODE=$LASTEXITCODE
