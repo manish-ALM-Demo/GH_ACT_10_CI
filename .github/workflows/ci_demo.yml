@@ -16,11 +16,17 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
-          
+
+      - name: Set PowerShell Execution Policy
+        run: |
+           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+      - name: Check out repository
+        uses: actions/checkout@v2
+
       - name: Build Maven project 
         run: |
            
-             mvn -f "C:\Users\manishkumar\Desktop\GITHUB actions\GH_ACT_10_CI\pom.xml" clean install
+             mvn  clean install
              $env:MAVEN_EXIT_CODE=$LASTEXITCODE
           
       # - name: Generate code coverage report
