@@ -18,7 +18,7 @@ jobs:
           
       - name: Build Maven project 
         run: |
-            cd $GITHUB_WORKSPACE
+           
              mvn clean install
              $env:MAVEN_EXIT_CODE=$LASTEXITCODE
           
