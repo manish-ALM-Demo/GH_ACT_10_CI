@@ -20,3 +20,13 @@ jobs:
         run: |
           mvn clean install
           $env:MAVEN_EXIT_CODE=$LASTEXITCODE
+          
+      - name: Generate code coverage report
+        run: |
+          
+          mvn jacoco:report
+      - name: Publish code coverage result
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage
+          path: target/site/jacoco/index.html
