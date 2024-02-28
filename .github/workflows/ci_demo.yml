@@ -18,7 +18,7 @@ jobs:
           
       - name: Build Maven project
         run: |
-            cd <E:\apache-maven-3.6.3\bin>
+            cd E:\apache-maven-3.6.3\bin
              mvn clean install
              $env:MAVEN_EXIT_CODE=$LASTEXITCODE
           
