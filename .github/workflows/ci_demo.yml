@@ -3,11 +3,13 @@ name: slack_github_action
 on:
   push:
     branches:
-      - main
+      - feature
 
 jobs:
   slack_notifier:
-    runs-on: manish_org_runner
+    # runs-on: manish_org_runner
+    runs-on: manish_linux
+  
 
     steps:
       - name: Set up JDK 17
@@ -16,60 +18,59 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
 
-      - name: Set PowerShell Execution Policy
-        run: |
-          Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
-
+      # - name: Set PowerShell Execution Policy
+      #   run: |
+      #      Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
       - name: Check out repository
         uses: actions/checkout@v2
 
       - name: Build Maven project 
-        run: mvn clean install
-
-      - name: Generate code coverage report
-        run: |
-          mvn jacoco:report
-
-      - name: Publish code coverage result
-        uses: actions/upload-artifact@v2
-        with:
-          name: code-coverage
-          path: target/site/jacoco/index.html
-
-      - name: Convert to non-shallow clone
-        run: git fetch --unshallow
-
-
-
-
-      # - name: Send notification on Slack using Webhooks - Success
-      #   if: ${{ success() }}
-      #   uses: slackapi/slack-github-action@v1.24.0
-      #   with:
-      #     payload: |
-      #       {
-      #         "text": "Maven project built successfully -- Send build sttaus to slack."
-      #       }
-      #   env:
-      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_API_URL }}
-
-      # - name: Send notification on Slack using Webhooks - Failure
-      #   if: ${{ failure() }}
-      #   uses: slackapi/slack-github-action@v1.24.0
-      #   with:
-      #     payload: |
-      #       {
-      #         "text": "Maven build failed. Please check the build logs for details and resolve it."
-      #       }
-      #   env:
-      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_API_URL }}
-
-
-
+        run: mvn  clean install
+             # $env:MAVEN_EXIT_CODE=$LASTEXITCODE
           
-      - name: SonarQube Scan
-        run: mvn sonar:sonar -Dsonar.host.url="${SONAR_URL}"  -Dsonar.login="${SONAR_CLOUD_TOKEN}" -Dsonar.sources=. -Dsonar.java.binaries=./target
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.Sonar_URL }}
+      # - name: Generate code coverage report
+      #   run: |
+          
+      #     mvn jacoco:report
+      # - name: Publish code coverage result
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: code-coverage
+      #     path: target/site/jacoco/index.html
 
+      # - name: Convert to non-shallow clone
+      #   run: git fetch --unshallow
+
+      # - name: SonarQube Scan
+      #   run: mvn sonar:sonar -Dsonar.host.url="${Sonar_URL}" -Dsonar.login="${SONAR_CLOUD_TOKEN}" -Dsonar.sources=. -Dsonar.java.binaries=./target
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
+      #     SONAR_HOST_URL: ${{ secrets.Sonar_URL }}
+
+      
+
+
+      # - name: SonarQube Scan
+      #   uses: sonarsource/sonarqube-scan-action@v2
+      #   with:
+      #     projectBaseDir: .
+      #     args: >
+      #       -Dsonar.organization=manish-alm-demo 
+      #       -Dsonar.projectKey=manish-alm-demo_gh-action-10
+      #       -Dsonar.sources=.
+      #       -Dsonar.host.url=https://sonarcloud.io
+      #       -Dsonar.java.binaries=./target/classes
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
+      #     SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
+
+
+
+      # - name: SonarQube Scan
+      #   uses: kitabisa/sonarqube-action@v1.2.0
+      #   with:
+      #     host: ${{ secrets.SONARQUBE_URL }}
+      #     login: ${{ secrets.SONAR_QUBE_GH_10 }}
+
+
+      
