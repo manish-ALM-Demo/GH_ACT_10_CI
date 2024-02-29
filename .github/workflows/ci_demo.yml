@@ -66,11 +66,11 @@ jobs:
 
 
 
-      - name: SonarQube Scan
-        uses: kitabisa/sonarqube-action@v1.2.0
-        with:
-          host: ${{ secrets.SONARQUBE_URL }}
-          login: ${{ secrets.SONAR_QUBE_GH_10 }}
+      # - name: SonarQube Scan
+      #   uses: kitabisa/sonarqube-action@v1.2.0
+      #   with:
+      #     host: ${{ secrets.SONARQUBE_URL }}
+      #     login: ${{ secrets.SONAR_QUBE_GH_10 }}
 
 
       
