@@ -41,29 +41,29 @@ jobs:
       - name: Convert to non-shallow clone
         run: git fetch --unshallow
 
-      - name: SonarQube Scan
-        # run: mvn sonar:sonar -Dsonar.host.url="${SONARQUBE_URL}" -Dsonar.login="${SONAR_QUBE_GH_10}" -Dsonar.sources=. -Dsonar.java.binaries=./target
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_QUBE_GH_10 }}
-          SONAR_HOST_URL: ${{ secrets.SONARQUBE_URL }}
+      # - name: SonarQube Scan
+      #   # run: mvn sonar:sonar -Dsonar.host.url="${SONARQUBE_URL}" -Dsonar.login="${SONAR_QUBE_GH_10}" -Dsonar.sources=. -Dsonar.java.binaries=./target
+      #   run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_QUBE_GH_10 }}
+      #     SONAR_HOST_URL: ${{ secrets.SONARQUBE_URL }}
 
       
 
 
-      # - name: SonarQube Scan
-      #   uses: sonarsource/sonarqube-scan-action@v2
-      #   with:
-      #     projectBaseDir: .
-      #     args: >
-      #       -Dsonar.organization=manish-alm-demo 
-      #       -Dsonar.projectKey=manish-alm-demo_gh-action-10
-      #       -Dsonar.sources=.
-      #       -Dsonar.host.url=https://sonarcloud.io
-      #       -Dsonar.java.binaries=./target/classes
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
-      #     SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@v2
+        with:
+          projectBaseDir: .
+          args: >
+            -Dsonar.organization=manish-alm-demo 
+            -Dsonar.projectKey=manish-alm-demo_gh-action-10
+            -Dsonar.sources=.
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.java.binaries=./target/classes
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
+          # SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
 
 
       # - name: SonarQube Scan
