@@ -42,7 +42,8 @@ jobs:
         run: git fetch --unshallow
 
       - name: SonarQube Scan
-        run: mvn sonar:sonar -Dsonar.host.url="${SONARQUBE_URL}" -Dsonar.login="${SONAR_QUBE_GH_10}" -Dsonar.sources=. -Dsonar.java.binaries=./target
+        # run: mvn sonar:sonar -Dsonar.host.url="${SONARQUBE_URL}" -Dsonar.login="${SONAR_QUBE_GH_10}" -Dsonar.sources=. -Dsonar.java.binaries=./target
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_QUBE_GH_10 }}
           SONAR_HOST_URL: ${{ secrets.SONARQUBE_URL }}
