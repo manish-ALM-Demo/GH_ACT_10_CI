@@ -20,7 +20,7 @@
 <!--   <sonar.host.url>https://sonarcloud.io</sonar.host.url> -->
 
        <sonar.projectKey>27061_complete_CI:master</sonar.projectKey> 
-        <sonar.projectName>27061_complete_CI</sonar.projectName> -->
+        <sonar.projectName>27061_complete_CI</sonar.projectName> 
         <sonar.jacoco.reportPaths>target/jacoco.exec</sonar.jacoco.reportPaths>
 		<sonar.projectVersion>1.0</sonar.projectVersion>
 	     <sonar.organization>manish-alm-demo</sonar.organization>
