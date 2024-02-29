@@ -7,8 +7,8 @@ on:
 
 jobs:
   slack_notifier:
-    runs-on: manish_org_runner
-    # runs-on: manish_linux
+    # runs-on: manish_org_runner
+    runs-on: manish_linux
   
 
     steps:
@@ -18,9 +18,9 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
  
-      - name: Set PowerShell Execution Policy
-        run: |
-           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+      # - name: Set PowerShell Execution Policy
+      #   run: |
+      #      Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
       - name: Check out repository
         uses: actions/checkout@v2
 
@@ -41,11 +41,11 @@ jobs:
       - name: Convert to non-shallow clone
         run: git fetch --unshallow
 
-      # - name: SonarQube Scan
-      #   run: mvn sonar:sonar -Dsonar.host.url="${Sonar_URL}" -Dsonar.login="${SONAR_CLOUD_TOKEN}" -Dsonar.sources=. -Dsonar.java.binaries=./target
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
-      #     SONAR_HOST_URL: ${{ secrets.Sonar_URL }}
+      - name: SonarQube Scan
+        run: mvn sonar:sonar -Dsonar.host.url="${SONARQUBE_URL}" -Dsonar.login="${SONAR_QUBE_GH_10}" -Dsonar.sources=. -Dsonar.java.binaries=./target
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_QUBE_GH_10 }}
+          SONAR_HOST_URL: ${{ secrets.SONARQUBE_URL }}
 
       
 
@@ -66,11 +66,11 @@ jobs:
 
 
 
-      - name: SonarQube Scan
-        uses: kitabisa/sonarqube-action@v1.2.0
-        with:
-          host: ${{ secrets.SONARQUBE_URL }}
-          login: ${{ secrets.SONAR_QUBE_GH_10 }}
+      # - name: SonarQube Scan
+      #   uses: kitabisa/sonarqube-action@v1.2.0
+      #   with:
+      #     host: ${{ secrets.SONARQUBE_URL }}
+      #     login: ${{ secrets.SONAR_QUBE_GH_10 }}
 
 
       
