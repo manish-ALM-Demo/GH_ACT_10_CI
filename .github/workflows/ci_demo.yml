@@ -23,6 +23,16 @@ jobs:
       #      Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
       - name: Check out repository
         uses: actions/checkout@v2
+
+# JFROG PART
+
+      - name: Install JFrog CLI
+        run: |
+          curl -fL https://getcli.jfrog.io | sh
+          sudo mv jfrog /usr/local/bin/ 
+        # Assuming jfrog is in the current directory
+
+
  
       - name: Build Maven project 
         run: mvn  clean install
@@ -65,6 +75,19 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
+
+
+      - name: Set JFrog CLI Path
+        run: |
+         export PATH=$PATH:/usr/local/bin
+ 
+      - name: Push Artifacts to JFrog
+        run: |
+          jfrog rt u target/*.jar gitaction-libs-snapshot-local/ --url=https://almdemogh.jfrog.io/artifactory/gitaction-libs-snapshot-local/ --access-token=eyJ2ZXIiOiIyIiwidHlwIjoiSldUIiwiYWxnIjoiUlMyNTYiLCJraWQiOiJlcWpGcVNxTmRBTDExRVRTYmUzSWQxM2JyTDJLekxoRXBYY19sOXBjVWkwIn0.eyJzdWIiOiJqZmFjQDAxaHFyanBxd3Rkc2Q0MW00anNtOHoxbmdtL3VzZXJzL21hbmlzaGt1bWFyQGN5YmFnZS5jb20iLCJzY3AiOiJhcHBsaWVkLXBlcm1pc3Npb25zL2FkbWluIiwiYXVkIjoiKkAqIiwiaXNzIjoiamZmZUAwMWhxcmpwcXd0ZHNkNDFtNGpzbTh6MW5nbSIsImV4cCI6MTcxMTc5OTMzMCwiaWF0IjoxNzA5MjA3MzMwLCJqdGkiOiI4OGM1YmRlOC1mZjEwLTQ0Y2UtOGE1My0zNTQ3MGFkYTc1MzEifQ.a6I0tBvDHzfpOnORnLSMqAI7QwpU18kQkR8D4BBBoXvgMlKDc-EIVgwJD2TNYnnPHse4sxQ1EZjCpebS45vymn1i_isfrR3NMUQaVWk08SlNvy6bS8tXGLTDglOfGNszmoyRZDfA62mXGULXGEp_n-C0wKCevkQS_oVimTb-FGZjHzUh5Ll7qgsahKMSMQHDpQ2eypsFVTGhYi_JU0A4_NuS9997xyqBRWIwvU60K3UQNbevKnR1fzZwgximp0ghGZI7YuWq3tojniMHFQCM-ZYF3cCUAwrL3Waj9Fi4bT5JvudpHRXtde-50ZN2S132SfJy6zjs2L-AmevvqIi04w
+ 
+ 
+
+
 
 
       - name: Send notification on Slack using Webhooks - Success
