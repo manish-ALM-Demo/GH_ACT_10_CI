@@ -28,18 +28,18 @@ jobs:
         run: mvn  clean install
              # $env:MAVEN_EXIT_CODE=$LASTEXITCODE
           
-      # - name: Generate code coverage report
-      #   run: |
+      - name: Generate code coverage report
+        run: |
           
-      #     mvn jacoco:report
-      # - name: Publish code coverage result
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: code-coverage
-      #     path: target/site/jacoco/index.html
+          mvn jacoco:report
+      - name: Publish code coverage result
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage
+          path: target/site/jacoco/index.html
 
-      # - name: Convert to non-shallow clone
-      #   run: git fetch --unshallow
+      - name: Convert to non-shallow clone
+        run: git fetch --unshallow
 
       # - name: SonarQube Scan
       #   run: mvn sonar:sonar -Dsonar.host.url="${Sonar_URL}" -Dsonar.login="${SONAR_CLOUD_TOKEN}" -Dsonar.sources=. -Dsonar.java.binaries=./target
@@ -66,11 +66,11 @@ jobs:
 
 
 
-      # - name: SonarQube Scan
-      #   uses: kitabisa/sonarqube-action@v1.2.0
-      #   with:
-      #     host: ${{ secrets.SONARQUBE_URL }}
-      #     login: ${{ secrets.SONAR_QUBE_GH_10 }}
+      - name: SonarQube Scan
+        uses: kitabisa/sonarqube-action@v1.2.0
+        with:
+          host: ${{ secrets.SONARQUBE_URL }}
+          login: ${{ secrets.SONAR_QUBE_GH_10 }}
 
 
       
