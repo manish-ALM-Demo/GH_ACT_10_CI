@@ -17,7 +17,7 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
-
+ 
       # - name: Set PowerShell Execution Policy
       #   run: |
       #      Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
