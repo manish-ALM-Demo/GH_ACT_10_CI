@@ -65,7 +65,6 @@ jobs:
       #     SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
 
 
-
       # - name: SonarQube Scan
       #   uses: kitabisa/sonarqube-action@v1.2.0
       #   with:
