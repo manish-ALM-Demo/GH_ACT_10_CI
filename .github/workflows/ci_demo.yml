@@ -44,4 +44,30 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.Sonar_URL }}
+
+
+
+
+      - name: Send notification on Slack using Webhooks - Success
+        if: ${{ success() }}
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "Maven project built successfully -- Send build sttaus to slack."
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_API_URL }}
+
+      - name: Send notification on Slack using Webhooks - Failure
+        if: ${{ failure() }}
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "Maven build failed. Please check the build logs for details and resolve it."
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_API_URL }}
+
           
