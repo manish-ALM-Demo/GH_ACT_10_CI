@@ -18,14 +18,16 @@
         <jacoco.version>0.8.6</jacoco.version>
              
 <!--   <sonar.host.url>https://sonarcloud.io</sonar.host.url> -->
-<!--         <sonar.login>sqa_76f71eafb268aab602732ea4616a816d5a822ba1</sonar.login> -->
-<!--         <sonar.projectKey>manish-ALM-Demo_GH_ACT_10_CI</sonar.projectKey>
-        <sonar.projectName>27061_complete_CI</sonar.projectName> -->
+
+       <sonar.projectKey>27061_complete_CI:master</sonar.projectKey> 
+        <sonar.projectName>27061_complete_CI</sonar.projectName> 
         <sonar.jacoco.reportPaths>target/jacoco.exec</sonar.jacoco.reportPaths>
 		<sonar.projectVersion>1.0</sonar.projectVersion>
-	     <sonar.organization>manish-alm-demo</sonar.organization>
+		  <sonar.sources>src</sonar.sources> 
+		<sonar.java.binaries>target<sonar.java.binaries>
+<!-- 	     <sonar.organization>manish-alm-demo</sonar.organization> -->
 
-
+      
     </properties>
 
     <dependencies>
