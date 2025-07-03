@@ -7,7 +7,7 @@ on:
 
 jobs:
   slack_notifier:
-    runs-on: manish_org_runner
+    runs-on: self-hosted
 
     steps:
       - name: Set up JDK 17
