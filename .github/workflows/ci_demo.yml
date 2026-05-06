@@ -82,7 +82,7 @@ jobs:
       - name: Install Semgrep
         run: pip install semgrep
 
-      - name: Run Semgrep Scan
+      - name: Run Semgrep Scan 
         run: |
           semgrep scan --config p/default --sarif --output=semgrep-results.sarif
 
