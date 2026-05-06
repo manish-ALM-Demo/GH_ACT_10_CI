@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  slack_notifier:
+  Scan:
     runs-on: ubuntu-latest
 
     steps:
