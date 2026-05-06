@@ -30,14 +30,14 @@ jobs:
         run: |
           mvn jacoco:report
 
-      - name: Publish code coverage result
-        uses: actions/upload-artifact@v2
-        with:
-          name: code-coverage
-          path: target/site/jacoco/index.html
+      # - name: Publish code coverage result
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: code-coverage
+      #     path: target/site/jacoco/index.html
 
-      - name: Convert to non-shallow clone
-        run: git fetch --unshallow
+      # - name: Convert to non-shallow clone
+      #   run: git fetch --unshallow
 
 
  
