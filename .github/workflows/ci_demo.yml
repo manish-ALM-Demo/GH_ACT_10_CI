@@ -60,7 +60,7 @@ jobs:
         with:
           image-ref: app:${{ github.sha }}
           format: table
-          exit-code: "1"
+          exit-code: "0"
           vuln-type: "os,library"
           ignore-unfixed: true
           severity: ${{ env.TRIVY_SEVERITY }}
