@@ -1,4 +1,4 @@
-name: slack_github_action
+name: Scan
 
 on:
   push:
