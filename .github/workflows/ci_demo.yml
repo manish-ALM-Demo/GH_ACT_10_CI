@@ -16,60 +16,83 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
 
-      # - name: Set PowerShell Execution Policy
-      #   run: |
-      #     Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
-
       - name: Check out repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Build Maven project 
+      - name: Build Maven project
         run: mvn clean install
 
       - name: Generate code coverage report
+        run: mvn jacoco:report
+
+  container-scan:
+    runs-on: ubuntu-latest
+    env:
+      TRIVY_SEVERITY: "CRITICAL,HIGH"
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build Docker Image
+        run: docker build -t app:${{ github.sha }} .
+
+      - name: Trivy Scan - SARIF Output
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: app:${{ github.sha }}
+          format: sarif
+          output: trivy-results.sarif
+          exit-code: "0"
+          vuln-type: "os,library"
+          ignore-unfixed: true
+          severity: ${{ env.TRIVY_SEVERITY }}
+
+      - name: Upload SARIF Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: container-scan-sarif
+          path: trivy-results.sarif
+
+      - name: Trivy Scan - Threshold Check
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: app:${{ github.sha }}
+          format: table
+          exit-code: "1"
+          vuln-type: "os,library"
+          ignore-unfixed: true
+          severity: ${{ env.TRIVY_SEVERITY }}
+
+  sast-scan:
+    runs-on: ubuntu-latest
+    env:
+      SEMGREP_SEVERITY: "ERROR"
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Semgrep
+        run: pip install semgrep
+
+      - name: Run Semgrep Scan
         run: |
-          mvn jacoco:report
+          semgrep scan --config p/default --sarif --output=semgrep-results.sarif
 
-      # - name: Publish code coverage result
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: code-coverage
-      #     path: target/site/jacoco/index.html
+      - name: Upload SARIF Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sast-scan-sarif
+          path: semgrep-results.sarif
 
-      # - name: Convert to non-shallow clone
-      #   run: git fetch --unshallow
-
-
- 
-
-      # - name: Send notification on Slack using Webhooks - Success
-      #   if: ${{ success() }}
-      #   uses: slackapi/slack-github-action@v1.24.0
-      #   with:
-      #     payload: |
-      #       {
-      #         "text": "Maven project built successfully -- Send build sttaus to slack."
-      #       }
-      #   env:
-      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_API_URL }}
-
-      # - name: Send notification on Slack using Webhooks - Failure
-      #   if: ${{ failure() }}
-      #   uses: slackapi/slack-github-action@v1.24.0
-      #   with:
-      #     payload: |
-      #       {
-      #         "text": "Maven build failed. Please check the build logs for details and resolve it."
-      #       }
-      #   env:
-      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_API_URL }}
-
-
-
-          
-      # - name: SonarQube Scan
-      #   run: mvn sonar:sonar -Dsonar.host.url="${SONAR_URL}"  -Dsonar.login="${SONAR_CLOUD_TOKEN}" -Dsonar.sources=. -Dsonar.java.binaries=./target
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
-      #     SONAR_HOST_URL: ${{ secrets.Sonar_URL }}
-
+      - name: Evaluate Threshold
+        run: |
+          semgrep scan --config p/default --error --severity $SEMGREP_SEVERITY
